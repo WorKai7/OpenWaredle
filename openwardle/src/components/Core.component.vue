@@ -1,7 +1,7 @@
 <template>
   <div class="wordle-container">
     <h1>OpenWardle</h1>
-    <p class="subtitle">Devinez le logiciel propriétaire !</p>
+    <p class="subtitle">{{ subtitle }}</p>
 
     <div v-if="loading" class="loading">Chargement...</div>
 
@@ -32,7 +32,20 @@
         <div v-else class="lost">
           😢 Perdu ! Le mot était <strong>{{ targetWord }}</strong>
         </div>
-        <button @click="startNewGame" class="new-game-btn">Nouvelle partie</button>
+
+        <!-- Open Source Alternative (for closed mode) -->
+        <div v-if="mode === 'closed' && openSourceAlternative" class="alternative">
+          <h3>💡 Alternative Open Source</h3>
+          <div class="alternative-card">
+            <span class="alternative-name">{{ openSourceAlternative.name }}</span>
+            <p class="alternative-description">{{ openSourceAlternative.description }}</p>
+          </div>
+        </div>
+
+        <div class="game-actions">
+          <button @click="startNewGame" class="new-game-btn">Nouvelle partie</button>
+          <router-link to="/" class="home-btn">Changer de mode</router-link>
+        </div>
       </div>
 
       <!-- Input -->
@@ -57,7 +70,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
+
+const props = defineProps<{
+  mode: 'open' | 'closed'
+}>()
 
 const MAX_ATTEMPTS = 6
 
@@ -74,6 +91,14 @@ const loading = ref(true)
 const error = ref('')
 const inputRef = ref<HTMLInputElement | null>(null)
 const revealedPositions = ref<Set<number>>(new Set())
+const openSourceAlternative = ref<{ name: string; description: string } | null>(null)
+
+// Computed
+const subtitle = computed(() => {
+  return props.mode === 'open'
+    ? 'Devinez le logiciel open source !'
+    : 'Devinez le logiciel propriétaire !'
+})
 
 // Normalize string for comparison (remove accents, lowercase)
 const normalizeString = (str: string): string => {
@@ -99,9 +124,14 @@ const calculateRevealedPositions = (length: number): Set<number> => {
 const fetchRandomSoftware = async () => {
   loading.value = true
   error.value = ''
+  openSourceAlternative.value = null
+
+  const endpoint = props.mode === 'open'
+    ? 'http://localhost:3000/software/random-open'
+    : 'http://localhost:3000/software/random-closed'
 
   try {
-    const response = await fetch('http://localhost:3000/software/random-open')
+    const response = await fetch(endpoint)
     if (!response.ok) throw new Error('Erreur API')
 
     const data = await response.json()
@@ -112,6 +142,14 @@ const fetchRandomSoftware = async () => {
     guesses.value = []
     currentRow.value = 0
     currentGuess.value = ''
+
+    // Mock open source alternative for closed mode
+    if (props.mode === 'closed') {
+      openSourceAlternative.value = {
+        name: 'Alternative Open Source',
+        description: 'Une alternative libre et gratuite à ce logiciel propriétaire.'
+      }
+    }
     gameOver.value = false
     won.value = false
   } catch (e) {
@@ -409,5 +447,61 @@ h1 {
 
 .new-game-btn:hover {
   background: #45a049;
+}
+
+.game-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.home-btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  background: #5C6BC0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.home-btn:hover {
+  background: #3F51B5;
+}
+
+.alternative {
+  margin-top: 25px;
+  padding: 20px;
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border-radius: 12px;
+  border: 2px solid #4CAF50;
+}
+
+.alternative h3 {
+  margin: 0 0 15px 0;
+  color: #2E7D32;
+}
+
+.alternative-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alternative-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #1B5E20;
+}
+
+.alternative-description {
+  margin: 10px 0 0 0;
+  color: #555;
+  font-size: 0.95rem;
 }
 </style>

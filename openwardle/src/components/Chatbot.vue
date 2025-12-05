@@ -5,7 +5,7 @@ import { getChatResponse, type Message } from '../services/mistralService'
 // State
 const isOpen = ref(false)
 const messages = ref<{ text: string; isUser: boolean }[]>([
-  { text: 'Hello! How can I help you today?', isUser: false }
+  { text: 'Bonjour ! Je suis là pour aider paraît-il.', isUser: false }
 ])
 const inputMessage = ref('')
 const isLoading = ref(false)
@@ -105,7 +105,7 @@ const formatMessage = (text: string): string => {
           :disabled="isLoading"
         />
         <button @click="sendMessage" class="send-btn" :disabled="isLoading">
-          {{ isLoading ? 'Sending...' : 'Send' }}
+          {{ isLoading ? 'Envoi...' : 'Envoyer' }}
         </button>
       </div>
     </div>
