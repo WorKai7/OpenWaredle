@@ -1,2 +1,4 @@
 openwardle/.env
-api/node_modules
+api/node_modules/
+node_modules/
+openwardle/node_modules/
