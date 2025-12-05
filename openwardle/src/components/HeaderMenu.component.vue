@@ -6,11 +6,11 @@
         </div>
 
         <div>
-            <n-button quaternary size="large">
+            <n-button quaternary size="large" @click="enableTerminal">
                 Se connecter
             </n-button>
 
-            <n-button quaternary size="large">
+            <n-button quaternary size="large" @click="enableTerminal">
                 S'inscrire
             </n-button>
         </div>
@@ -21,7 +21,16 @@
 
 
 <script lang="ts" setup>
+    import { useTerminalStore } from '@/stores/terminal';
 
+    const terminalStore = useTerminalStore()
+    const son = new Audio("/assets/error.mp3")
+
+    function enableTerminal() {
+        terminalStore.openTerminal()
+
+        son.play()
+    }
 </script>
 
 
