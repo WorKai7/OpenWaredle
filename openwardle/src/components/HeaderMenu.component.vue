@@ -24,12 +24,12 @@
     import { useTerminalStore } from '@/stores/terminal';
 
     const terminalStore = useTerminalStore()
-    const son = new Audio("/assets/error.mp3")
+    // const son = new Audio("/assets/error.mp3")
 
     function enableTerminal() {
         terminalStore.openTerminal()
 
-        son.play()
+        // son.play()
     }
 </script>
 
