@@ -73,7 +73,7 @@
 import { ref, onMounted, computed, watch } from 'vue'
 
 const props = defineProps<{
-  mode: 'open' | 'closed'
+  mode?: 'open' | 'closed'
 }>()
 
 const MAX_ATTEMPTS = 6
@@ -166,9 +166,9 @@ const getRowCells = (rowIndex: number): string[] => {
 
   for (let i = 0; i < wordLength.value; i++) {
     if (guess[i]) {
-      cells.push(guess[i])
+      cells.push(guess[i]!)
     } else if (revealedPositions.value.has(i)) {
-      cells.push(targetWord.value[i])
+      cells.push(targetWord.value[i]!)
     } else {
       cells.push('')
     }
