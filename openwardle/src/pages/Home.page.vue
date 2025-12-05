@@ -1,5 +1,6 @@
 <template>
   <HeaderMenuComponent />
+  <Terminal v-if="terminalStore.showTerminal"/>
   <div class="home-container">
     <h1>OpenWardle</h1>
     <p class="tagline">Le Wordle des logiciels !</p>
@@ -24,6 +25,11 @@
 
 <script lang="ts" setup>
 import HeaderMenuComponent from '@/components/HeaderMenu.component.vue'
+import Terminal from '@/components/Terminal.component.vue';
+
+import { useTerminalStore } from '@/stores/terminal';
+
+const terminalStore = useTerminalStore()
 </script>
 
 <style scoped>
