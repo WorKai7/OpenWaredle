@@ -1,6 +1,6 @@
 <template>
   <div class="wordle-container">
-    <h1>OpenWardle</h1>
+    <h1>OpenWaredle</h1>
     <p class="subtitle">{{ subtitle }}</p>
 
     <div v-if="loading" class="loading">Chargement...</div>

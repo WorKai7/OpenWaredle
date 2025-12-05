@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import { getChatResponse, type Message } from '../services/mistralService'
 
 // State
@@ -9,6 +9,16 @@ const messages = ref<{ text: string; isUser: boolean }[]>([
 ])
 const inputMessage = ref('')
 const isLoading = ref(false)
+const messagesContainer = ref<HTMLElement | null>(null)
+
+// Scroll to bottom of messages
+const scrollToBottom = () => {
+  nextTick(() => {
+    if (messagesContainer.value) {
+      messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
+    }
+  })
+}
 
 // Toggle chatbot
 const toggleChatbot = () => {
@@ -26,6 +36,7 @@ const sendMessage = async () => {
     text: userMessage,
     isUser: true
   })
+  scrollToBottom()
 
   inputMessage.value = ''
   isLoading.value = true
@@ -45,12 +56,14 @@ const sendMessage = async () => {
       text: botResponse,
       isUser: false
     })
+    scrollToBottom()
   } catch (error) {
     console.error('Error getting response:', error)
     messages.value.push({
       text: 'Sorry, I encountered an error. Please try again.',
       isUser: false
     })
+    scrollToBottom()
   } finally {
     isLoading.value = false
   }
@@ -80,7 +93,7 @@ const formatMessage = (text: string): string => {
         <button @click="toggleChatbot" class="close-btn">&times;</button>
       </div>
 
-      <div class="chat-messages">
+      <div class="chat-messages" ref="messagesContainer">
         <div
           v-for="(message, index) in messages"
           :key="index"
