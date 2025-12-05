@@ -127,8 +127,8 @@ const fetchRandomSoftware = async () => {
   openSourceAlternative.value = null
 
   const endpoint = props.mode === 'open'
-    ? 'http://localhost:3000/software/random-open'
-    : 'http://localhost:3000/software/random-closed'
+    ? 'https://openwaredle.onrender.com/software/random-open'
+    : 'https://openwaredle.onrender.com/software/random-closed'
 
   try {
     const response = await fetch(endpoint)
