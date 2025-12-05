@@ -62,6 +62,13 @@ const handleKeyPress = (event: KeyboardEvent) => {
     sendMessage()
   }
 }
+
+// Format message with bold and italic
+const formatMessage = (text: string): string => {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+}
 </script>
 
 <template>
@@ -78,9 +85,8 @@ const handleKeyPress = (event: KeyboardEvent) => {
           v-for="(message, index) in messages"
           :key="index"
           :class="['message', message.isUser ? 'user-message' : 'bot-message']"
-        >
-          {{ message.text }}
-        </div>
+          v-html="formatMessage(message.text)"
+        ></div>
         <div v-if="isLoading" class="message bot-message loading">
           <span class="typing-indicator">
             <span></span>
