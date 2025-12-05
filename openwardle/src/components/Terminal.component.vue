@@ -22,6 +22,7 @@
 <script setup>
     import { ref } from "vue"
     import { useTerminalStore } from "@/stores/terminal"
+    import router from "@/router"
 
     const terminalStore = useTerminalStore()
 
@@ -40,7 +41,7 @@
         if (cmd === "ls") history.value.push(...commands.ls())
         else if (cmd === "help") history.value.push(...commands.help())
         else if (cmd === "snake") {
-            // on fera des trucs après
+            commands.snake()
         } else {
             history.value.push(`Commande inconnue : ${cmd}`)
         }
