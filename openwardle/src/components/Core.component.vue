@@ -1,6 +1,6 @@
 <template>
   <div class="wordle-container">
-    <h1>OpenWardle</h1>
+    <h1>OpenWaredle</h1>
     <p class="subtitle">Devinez le logiciel propriétaire !</p>
 
     <div v-if="loading" class="loading">Chargement...</div>
@@ -101,7 +101,7 @@ const fetchRandomSoftware = async () => {
   error.value = ''
 
   try {
-    const response = await fetch('http://localhost:3000/software/random-open')
+    const response = await fetch('https://openwaredle.onrender.com/software/random-open')
     if (!response.ok) throw new Error('Erreur API')
 
     const data = await response.json()
