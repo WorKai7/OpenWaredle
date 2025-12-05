@@ -1,12 +1,7 @@
 <template>
   <div class="wordle-container">
-<<<<<<< HEAD
     <h1>OpenWardle</h1>
     <p class="subtitle">{{ subtitle }}</p>
-=======
-    <h1>OpenWaredle</h1>
-    <p class="subtitle">Devinez le logiciel propriétaire !</p>
->>>>>>> 407ac3bea2fb2b55ed5119182a4dbaf44a733f06
 
     <div v-if="loading" class="loading">Chargement...</div>
 
