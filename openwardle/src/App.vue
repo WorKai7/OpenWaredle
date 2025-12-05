@@ -1,6 +1,4 @@
 <template>
-    <HeaderMenuComponent/>
-    <CoreComponent/>
     <Chatbot/>
     <RouterView/>
 </template>
