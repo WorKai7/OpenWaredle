@@ -75,7 +75,7 @@
         const SnakeScene = new Phaser.Scene("SnakeScene");
 
         SnakeScene.preload = function () {
-            this.load.image("apple", "assets/snake/apple.png");
+            this.load.image("apple", "/openwardle/assets/snake/apple.png");
             this.load.image("snake_body", "/assets/snake/snake_body.png");
             this.load.image("snake_head", "/assets/snake/snake_head.png");
             this.load.image("snake_turn", "/assets/snake/snake_turn.png");
